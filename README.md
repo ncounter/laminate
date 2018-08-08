@@ -1,0 +1,2 @@
+# laminate
+Logging Javascript
