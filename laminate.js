@@ -4,7 +4,9 @@
   function Laminate(){
     var _laminateObject = {};
 
-    var _POST_DATA_URL = '';
+    var config = {
+      postDataURL: ''
+    };
 
     function postData(data) {
       const opts = {
@@ -14,7 +16,7 @@
         referrer: 'no-referrer',
         body: JSON.stringify(data),
       }
-      const result = fetch(_POST_DATA_URL, opts)
+      const result = fetch(config.postDataURL, opts)
       .then(function (response) { return response.json();})
       .catch(error => console.error('Fetch Error =\n', error));
       return result;
@@ -33,7 +35,7 @@
     }
 
     _laminateObject.setBackendURL = function(newUrl) {
-      _POST_DATA_URL = newUrl;
+      config.postDataURL = newUrl;
     }
     return _laminateObject;
   }
