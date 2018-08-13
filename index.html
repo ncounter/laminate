@@ -52,17 +52,18 @@
     </p>
 
     <script>
-      document.getElementsByName('backend-URL')[0].addEventListener('keyup', (e) => setBackendURL(e.target.value));
-      document.getElementsByName('backend-URL')[0].addEventListener('change', (e) => setBackendURL(e.target.value));
+      const Log = window.Laminate;
+      document.getElementsByName('backend-URL')[0].addEventListener('keyup', (e) => Log.setBackendURL(e.target.value));
+      document.getElementsByName('backend-URL')[0].addEventListener('change', (e) => Log.setBackendURL(e.target.value));
 
       function sendLog() {
         const message = document.getElementsByName('log-message')[0].value;
         let result;
         switch(document.querySelector('input[name="log-level"]:checked').value) {
-          case 'info': result = info(message); break;
-          case 'debug': result = debug(message); break;
-          case 'warning': result = warning(message); break;
-          case 'error': result = error(message); break;
+          case 'info': result = Log.info(message); break;
+          case 'debug': result = Log.debug(message); break;
+          case 'warning': result = Log.warning(message); break;
+          case 'error': result = Log.error(message); break;
         }
 
         result.then(function (responseJson) {
