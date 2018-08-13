@@ -1,10 +1,75 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title></title>
+    <title>Laminate.js Tester</title>
+    <style>
+      input[type='text'] {
+        width: 500px;
+      }
+      input, label{
+        vertical-align: middle;
+      }
+      label {
+        margin-right: 1em;
+      }
+      p {
+        margin: 1.5em;
+      }
+      i {
+        display: inline-block;
+        margin-bottom: 0.3em;
+      }
+    </style>
     <script type="text/javascript" src="laminate.js"></script>
   </head>
   <body>
-    some text
+    <h3>Laminate.js tester</h3>
+    <span>Open browser's Development Tools pane and take a look at the "Console" tab or at "Network" tab</span>
+    <p>
+      <i>Set the backend URL where to POST the log message <small>(e.g.:  https://httpbin.org/post )</small></i>
+      <br />
+      <input type='text' name='backend-URL' placeholder='set the backend URL' />
+    </p>
+    <p>
+      <i>Prepare the log message for the test</i>
+      <br />
+      <input type='text' name='log-message' placeholder='write a log message to send' />
+    </p>
+    <p>
+      <i>Choose the severity log-level you want to test</i>
+      <br />
+      <input type='radio' id='info-level' value='info' name='log-level' checked /><label for='info-level'>info</label>
+      <input type='radio' id='debug-level' value='debug' name='log-level' /><label for='debug-level'>debug</label>
+      <input type='radio' id='warning-level' value='warning' name='log-level' /><label for='warning-level'>warning</label>
+      <input type='radio' id='error-level' value='error' name='log-level' /><label for='error-level'>error</label>
+    </p>
+    <p>
+      <i>Send the log message via Laminate.js</i>
+      <br />
+      <button id='send-log'>Send Log Message</button>
+    </p>
+    <p id='text-result'>
+    </p>
+
+    <script>
+      document.getElementsByName('backend-URL')[0].addEventListener('keyup', (e) => setBackendURL(e.target.value));
+      document.getElementsByName('backend-URL')[0].addEventListener('change', (e) => setBackendURL(e.target.value));
+
+      function sendLog() {
+        const message = document.getElementsByName('log-message')[0].value;
+        let result;
+        switch(document.querySelector('input[name="log-level"]:checked').value) {
+          case 'info': result = info(message); break;
+          case 'debug': result = debug(message); break;
+          case 'warning': result = warning(message); break;
+          case 'error': result = error(message); break;
+        }
+
+        result.then(function (responseJson) {
+          document.getElementById('text-result').innerHTML = JSON.stringify(responseJson)
+        });
+      }
+      document.getElementById('send-log').addEventListener('click', sendLog);
+    </script>
   </body>
 </html>
