@@ -1,4 +1,4 @@
-"use strict";
+var _POST_DATA_URL = '';
 
 function postData(data) {
   const opts = {
@@ -8,27 +8,24 @@ function postData(data) {
     referrer: 'no-referrer',
     body: JSON.stringify(data),
   }
-
-  fetch('https://httpbin.org/post', opts)
+  const result = fetch(_POST_DATA_URL, opts)
   .then(function (response) { return response.json();})
-  .then(function (responseJson) { console.log(responseJson) })
   .catch(error => console.error('Fetch Error =\n', error));
+  return result;
 }
-
 function info(message) {
-  postData({'level' : 'info', 'message' : message});
+  return postData({'level' : 'info', 'message' : message});
 }
 function debug(message) {
-  postData({'level' : 'debug', 'message' : message});
+  return postData({'level' : 'debug', 'message' : message});
 }
 function warning(message) {
-  postData({'level' : 'warning', 'message' : message});
+  return postData({'level' : 'warning', 'message' : message});
 }
 function error(message) {
-  postData({'level' : 'error', 'message' : message});
+  return postData({'level' : 'error', 'message' : message});
 }
 
-info('test-info');
-debug('test-debug');
-warning('test-warning');
-error('test-error');
+function setBackendURL(newUrl) {
+  _POST_DATA_URL = newUrl;
+}
