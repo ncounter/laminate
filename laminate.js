@@ -65,6 +65,12 @@
     _laminateObject.setBackendURL = function(newUrl) {
       config.postDataURL = newUrl;
     }
+    _laminateObject.enableLogLevels = function(flags) {
+      config.levels.info = flags.info;
+      config.levels.devug = flags.debug;
+      config.levels.warning = flags.warning;
+      config.levels.error = flags.error;
+    }
     return _laminateObject;
   }
 
