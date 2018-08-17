@@ -70,5 +70,17 @@
 
   if(typeof(window.Laminate) === 'undefined'){
     window.Laminate = Laminate();
+    window.onload = () => window.Laminate.info('[' + new Date().toUTCString() + '] - Loading "' + window.location + '"');
+    window.onerror = (msg, url, line, col, error) => {
+        // Note that col & error are new to the HTML 5 and may not be supported in every browser.
+        var extra = !col ? '' : '\ncolumn: ' + col;
+        extra += !error ? '' : '\nerror: ' + error;
+
+        window.Laminate.error(msg + "\nurl: " + url + "\nline: " + line + extra);
+
+        // returning true will suppress default console logging and alerts of the error
+        return true;
+     };
+    window.onunload = () => window.Laminate.info('[' + new Date().toUTCString() + '] - Leaving "' + window.location + '"');
   }
 })(window);
