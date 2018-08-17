@@ -28,7 +28,7 @@
     <p>
       <i>Set the backend URL where to POST the log message <small>(e.g.:  https://httpbin.org/post )</small></i>
       <br />
-      <input type='text' name='backend-URL' placeholder='set the backend URL' />
+      <input type='text' name='backend-URL' placeholder='set the backend URL' value='https://httpbin.org/post' />
     </p>
     <p>
       <i>Prepare the log message for the test</i>
@@ -53,8 +53,11 @@
 
     <script>
       const Log = window.Laminate;
-      document.getElementsByName('backend-URL')[0].addEventListener('keyup', (e) => Log.setBackendURL(e.target.value));
-      document.getElementsByName('backend-URL')[0].addEventListener('change', (e) => Log.setBackendURL(e.target.value));
+      const backendURLInput = document.getElementsByName('backend-URL')[0];
+      backendURLInput.addEventListener('keyup', (e) => Log.setBackendURL(e.target.value));
+      backendURLInput.addEventListener('change', (e) => Log.setBackendURL(e.target.value));
+
+      Log.setBackendURL('https://httpbin.org/post');
 
       function sendLog() {
         const message = document.getElementsByName('log-message')[0].value;
