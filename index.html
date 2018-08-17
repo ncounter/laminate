@@ -85,7 +85,7 @@
       document.getElementById('send-log').addEventListener('click', sendLog);
 
       function newError() {
-        throw new Error('A thrown error on purpose');
+        throw new Error("boom!");
       }
       document.getElementById('throw-error').addEventListener('click', newError);
     </script>

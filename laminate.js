@@ -83,12 +83,12 @@
     window.addEventListener('load', function() {
       window.Laminate.info('[' + new Date().toUTCString() + '] - Loading "' + window.location + '"');
     })
-    window.addEventListener('error', function(msg, url, line, col, error) {
-        // Note that col & error are new to the HTML 5 and may not be supported in every browser.
-        var extra = !col ? '' : '\ncolumn: ' + col;
-        extra += !error ? '' : '\nerror: ' + error;
+    window.addEventListener('error', function(event) {
+      // Note that col & error are new to the HTML 5 and may not be supported in every browser.
+      var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
+      extra += !event.error ? '' : '\nerror: ' + event.error;
 
-        window.Laminate.error(msg + "\nurl: " + url + "\nline: " + line + extra);
+      window.Laminate.error(event.message + "\nurl: " + event.filename + "\nline: " + event.lineno + extra);
     });
     window.addEventListener('unload', function() {
       window.Laminate.info('[' + new Date().toUTCString() + '] - Leaving "' + window.location + '"');
