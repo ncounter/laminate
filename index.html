@@ -64,6 +64,10 @@
 
       Log.setBackendURL('https://httpbin.org/post');
 
+      function writeResponse (jsonText) {
+        document.getElementById('text-result').innerHTML = JSON.stringify(jsonText)
+      }
+
       function sendLog() {
         const message = document.getElementsByName('log-message')[0].value;
         let result;
@@ -74,9 +78,7 @@
           case 'error': result = Log.error(message); break;
         }
 
-        result.then(function (responseJson) {
-          document.getElementById('text-result').innerHTML = JSON.stringify(responseJson)
-        });
+        result.then(resultJson => writeResponse);
       }
       document.getElementById('send-log').addEventListener('click', sendLog);
 
