@@ -18,7 +18,7 @@
       }
       const result = fetch(config.postDataURL, opts)
       .then(function (response) { return response.json();})
-      .catch(error => console.error('Fetch Error =\n', error));
+      .catch(error => console.error('Error trying to send log message to "' + config.postDataURL + '" . Json log data was = ' + JSON.stringify(opts), error));
       return result;
     }
     _laminateObject.info = function(message) {
