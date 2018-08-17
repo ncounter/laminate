@@ -5,7 +5,14 @@
     var _laminateObject = {};
 
     var config = {
-      postDataURL: ''
+      postDataURL: '',
+      levels:
+        {
+          info: true,
+          debug: false,
+          warning: false,
+          error: true
+        }
     };
 
     function postData(data) {
@@ -22,16 +29,37 @@
       return result;
     }
     _laminateObject.info = function(message) {
-      return postData({'level' : 'info', 'message' : message});
+      if (config.levels.info) {
+        return postData({'level' : 'info', 'message' : message});
+      }
+      else {
+        console.log('Laminate.info has been called but it is disabled');
+      }
     }
     _laminateObject.debug = function(message) {
-      return postData({'level' : 'debug', 'message' : message});
+      if (config.levels.debug) {
+        return postData({'level' : 'debug', 'message' : message});
+      }
+      else {
+        console.log('Laminate.debug has been called but it is disabled');
+      }
     }
     _laminateObject.warning = function(message) {
-      return postData({'level' : 'warning', 'message' : message});
+      if (config.levels.warning) {
+        return postData({'level' : 'warning', 'message' : message});
+      }
+      else {
+        console.log('Laminate.warning has been called but it is disabled');
+      }
     }
     _laminateObject.error = function(message) {
-      return postData({'level' : 'error', 'message' : message});
+      if (config.levels.error) {
+        return postData({'level' : 'error', 'message' : message})
+            .then(alert('An unhandled error occurred: ' + message));
+      }
+      else {
+        console.log('Laminate.error has been called but it is disabled');
+      }
     }
 
     _laminateObject.setBackendURL = function(newUrl) {
