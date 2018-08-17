@@ -78,7 +78,9 @@
           case 'error': result = Log.error(message); break;
         }
 
-        result.then(resultJson => writeResponse);
+        if (result){
+          result.then(resultJson => writeResponse);
+        }
       }
       document.getElementById('send-log').addEventListener('click', sendLog);
 

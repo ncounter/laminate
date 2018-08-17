@@ -34,6 +34,7 @@
       }
       else {
         console.log('Laminate.info has been called but it is disabled');
+        return null;
       }
     }
     _laminateObject.debug = function(message) {
@@ -42,6 +43,7 @@
       }
       else {
         console.log('Laminate.debug has been called but it is disabled');
+        return null;
       }
     }
     _laminateObject.warning = function(message) {
@@ -50,6 +52,7 @@
       }
       else {
         console.log('Laminate.warning has been called but it is disabled');
+        return null;
       }
     }
     _laminateObject.error = function(message) {
@@ -59,6 +62,7 @@
       }
       else {
         console.log('Laminate.error has been called but it is disabled');
+        return null;
       }
     }
 
