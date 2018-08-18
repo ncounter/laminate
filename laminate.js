@@ -12,7 +12,8 @@
           debug: false,
           warning: false,
           error: true
-        }
+        },
+      alertOnError: true
     };
 
     function postData(data) {
@@ -57,12 +58,17 @@
     }
     _laminateObject.error = function(message) {
       if (config.levels.error) {
-        return postData({'level' : 'error', 'message' : message})
-            .then(alert('An unhandled error occurred: ' + message));
+        return postData({'level' : 'error', 'message' : message}).then(alertOnError(message));
       }
       else {
         console.log('Laminate.error has been called but it is disabled');
         return null;
+      }
+    }
+
+    function alertOnError(message) {
+      if(config.alertOnError) {
+        alert('An unhandled error occurred - ' + message);
       }
     }
 
@@ -74,6 +80,9 @@
       config.levels.devug = flags.debug;
       config.levels.warning = flags.warning;
       config.levels.error = flags.error;
+    }
+    _laminateObject.enableAlertOnError = function(flag) {
+      config.alertOnError = flag;
     }
     return _laminateObject;
   }
