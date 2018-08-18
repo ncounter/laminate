@@ -79,7 +79,7 @@
         }
 
         if (result){
-          result.then(resultJson => writeResponse);
+          result.then(resultJson => writeResponse(resultJson));
         }
       }
       document.getElementById('send-log').addEventListener('click', sendLog);
