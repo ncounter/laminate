@@ -13,8 +13,12 @@
           warning: false,
           error: true
         },
-      alertOnError: true
+      alertOnErrorLevel: true
     };
+
+    function formatPostDataErrorMessage(opts) {
+      return 'Error trying to send log message to "' + config.postDataURL + '" . Json log data was = ' + JSON.stringify(opts);
+    }
 
     function postData(data) {
       const opts = {
@@ -24,50 +28,54 @@
         referrer: 'no-referrer',
         body: JSON.stringify(data),
       }
-      const result = fetch(config.postDataURL, opts)
-      .then(function (response) { return response.json();})
-      .catch(error => console.error('Error trying to send log message to "' + config.postDataURL + '" . Json log data was = ' + JSON.stringify(opts), error));
+      const result = fetch(config.postDataURL + '', opts)
+          .then(function (response) { return response.json();})
+          .catch(error => console.error(formatPostDataErrorMessage(opts)));
       return result;
     }
     _laminateObject.info = function(message) {
+      let ret;
       if (config.levels.info) {
-        return postData({'level' : 'info', 'message' : message});
+        ret = postData({'level' : 'info', 'message' : message});
       }
       else {
         console.log('Laminate.info has been called but it is disabled');
-        return null;
       }
+      return ret;
     }
     _laminateObject.debug = function(message) {
+      let ret;
       if (config.levels.debug) {
-        return postData({'level' : 'debug', 'message' : message});
+        ret = postData({'level' : 'debug', 'message' : message});
       }
       else {
         console.log('Laminate.debug has been called but it is disabled');
-        return null;
       }
+      return ret;
     }
     _laminateObject.warning = function(message) {
+      let ret;
       if (config.levels.warning) {
-        return postData({'level' : 'warning', 'message' : message});
+        re = postData({'level' : 'warning', 'message' : message});
       }
       else {
         console.log('Laminate.warning has been called but it is disabled');
-        return null;
       }
+      return ret;
     }
     _laminateObject.error = function(message) {
+      let ret;
       if (config.levels.error) {
-        return postData({'level' : 'error', 'message' : message}).then(alertOnError(message));
+        ret = postData({'level' : 'error', 'message' : message}).then(alertOnErrorLevel(message));
       }
       else {
         console.log('Laminate.error has been called but it is disabled');
-        return null;
       }
+      return ret;
     }
 
-    function alertOnError(message) {
-      if(config.alertOnError) {
+    function alertOnErrorLevel(message) {
+      if(config.alertOnErrorLevel) {
         alert('An unhandled error occurred - ' + message);
       }
     }
