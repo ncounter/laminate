@@ -13,7 +13,8 @@
           warning: false,
           error: true
         },
-      alertOnErrorLevel: true
+      alertOnErrorLevel: true,
+      alertOnSendingData: true,
     };
 
     function formatPostDataErrorMessage(opts) {
@@ -30,7 +31,15 @@
       }
       const result = fetch(config.postDataURL + '', opts)
           .then(function (response) { return response.json();})
-          .catch(error => console.error(formatPostDataErrorMessage(opts)));
+          .catch(error =>
+            {
+              const errorMessage = formatPostDataErrorMessage(opts);
+              console.error(errorMessage);
+              if (config.alertOnSendingData) {
+                alert(errorMessage);
+              }
+            }
+          );
       return result;
     }
     _laminateObject.info = function(message) {
@@ -91,6 +100,9 @@
     }
     _laminateObject.enableAlertOnError = function(flag) {
       config.alertOnError = flag;
+    }
+    _laminateObject.enableAlertOnSendingData = function(flag) {
+      config.alertOnSendingData = flag;
     }
     return _laminateObject;
   }
