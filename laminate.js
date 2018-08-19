@@ -17,8 +17,10 @@
       alertOnSendingData: true,
     };
 
-    function formatPostDataErrorMessage(opts) {
-      return 'Error trying to send log message to "' + config.postDataURL + '" . Json log data was = ' + JSON.stringify(opts);
+    function formatPostDataErrorMessage(opts, error) {
+      return 'Error trying to send log message to "' + config.postDataURL + '"\n\n' +
+          'POST JSON data was = ' + JSON.stringify(opts) +
+          '\n\n' + error;
     }
 
     function postData(data) {
@@ -33,8 +35,8 @@
           .then(function (response) { return response.json();})
           .catch(error =>
             {
-              const errorMessage = formatPostDataErrorMessage(opts);
-              console.error(errorMessage);
+              const errorMessage = formatPostDataErrorMessage(opts, error);
+              console.error(errorMessage, error);
               if (config.alertOnSendingData) {
                 alert(errorMessage);
               }
