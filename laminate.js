@@ -100,8 +100,8 @@
       config.levels.warning = flags.warning;
       config.levels.error = flags.error;
     }
-    _laminateObject.enableAlertOnError = function(flag) {
-      config.alertOnError = flag;
+    _laminateObject.enableAlertOnErrorLevel = function(flag) {
+      config.alertOnErrorLevel = flag;
     }
     _laminateObject.enableAlertOnSendingData = function(flag) {
       config.alertOnSendingData = flag;

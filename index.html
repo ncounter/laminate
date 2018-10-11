@@ -69,8 +69,8 @@
       backendURLInput.addEventListener('change', (e) => Log.setBackendURL(e.target.value));
 
       document.getElementById('alert-on-error')
-          .addEventListener('change', (e) => Log.enableAlertOnError(e.target.checked));
-      Log.enableAlertOnError(document.getElementById('alert-on-error').checked);
+          .addEventListener('change', (e) => Log.enableAlertOnErrorLevel(e.target.checked));
+      Log.enableAlertOnErrorLevel(document.getElementById('alert-on-error').checked);
 
       Log.setBackendURL('https://httpbin.org/post');
 
