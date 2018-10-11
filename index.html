@@ -44,6 +44,12 @@
       <input type='radio' id='error-level' value='error' name='log-level' /><label for='error-level'>error</label>
     </p>
     <p>
+      <label for='alert-on-error'>
+        <i>Enable alert on error</i>
+      </label>
+      <input type='checkbox' id='alert-on-error' checked='checked' name='alert-on-error' />
+    </p>
+    <p>
       <i>Send the log message via Laminate.js</i>
       <br />
       <button id='send-log'>Send Log Message</button>
@@ -61,6 +67,10 @@
       const backendURLInput = document.getElementsByName('backend-URL')[0];
       backendURLInput.addEventListener('keyup', (e) => Log.setBackendURL(e.target.value));
       backendURLInput.addEventListener('change', (e) => Log.setBackendURL(e.target.value));
+
+      document.getElementById('alert-on-error')
+          .addEventListener('change', (e) => Log.enableAlertOnError(e.target.checked));
+      Log.enableAlertOnError(document.getElementById('alert-on-error').checked);
 
       Log.setBackendURL('https://httpbin.org/post');
 
