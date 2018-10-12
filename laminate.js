@@ -31,7 +31,7 @@
         referrer: 'no-referrer',
         body: JSON.stringify(data),
       }
-      const result = fetch(config.postDataURL + '', opts)
+      const result = fetch(config.postDataURL, opts)
           .then(function (response) { return response.json();})
           .catch(error =>
             {
