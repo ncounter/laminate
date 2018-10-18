@@ -4,6 +4,7 @@
   function Loggerhead(){
     var _loggerheadObject = {};
 
+    // configuration object
     var config = {
       postDataURL: '',
       levels:
@@ -15,18 +16,16 @@
         },
     };
 
+    // private functions
     function formatPostDataErrorMessage(opts, error) {
       return 'Error trying to send log message to "' + config.postDataURL + '"\n\n' +
-          'POST JSON data was = ' + JSON.stringify(opts) +
-          '\n\n' + error;
+          'POST JSON data was = ' + JSON.stringify(opts) + '\n\n' + error;
     }
-
     function postData(data) {
       const opts = {
         method: 'POST', mode: 'cors', cache: 'no-cache', credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        redirect: 'follow',
-        referrer: 'no-referrer',
+        redirect: 'follow', referrer: 'no-referrer',
         body: JSON.stringify(data),
       }
       const result = fetch(config.postDataURL, opts)
@@ -39,6 +38,8 @@
           );
       return result;
     }
+
+    // public functions
     _loggerheadObject.info = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
       if (config.levels.info) {
@@ -56,7 +57,7 @@
     _loggerheadObject.warning = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
       if (config.levels.warning) {
-        re = postData({'level' : 'warning', 'message' : message});
+        ret = postData({'level' : 'warning', 'message' : message});
       }
       return ret;
     }
