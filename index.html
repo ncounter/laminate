@@ -45,12 +45,6 @@
       <input type='radio' id='error-level' value='error' name='log-level' /><label for='error-level'>error</label>
     </p>
     <p>
-      <label for='alert-on-error'>
-        <i>Enable alert on error</i>
-      </label>
-      <input type='checkbox' id='alert-on-error' checked='checked' name='alert-on-error' />
-    </p>
-    <p>
       <i>Send the log message via Loggerhead.js</i>
       <br />
       <button id='send-log'>Send Log Message</button>
@@ -72,12 +66,9 @@
       const backendURLInput = document.getElementsByName('backend-URL')[0];
       backendURLInput.addEventListener('keyup', (e) => Lh.setBackendURL(e.target.value));
       backendURLInput.addEventListener('change', (e) => Lh.setBackendURL(e.target.value));
-      const alertOnError = document.getElementById('alert-on-error');
-      alertOnError.addEventListener('change', (e) => Lh.enableAlertOnLogErrorLevel(e.target.checked));
 
       // set config values
       Lh.setBackendURL(backendURLInput.value);
-      Lh.enableAlertOnLogErrorLevel(alertOnError.checked);
 
       // additional action after Loggerhead function call
       function writeResponse (jsonText) {

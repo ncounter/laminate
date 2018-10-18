@@ -13,7 +13,6 @@
           warning: false,
           error: true
         },
-      alertOnLogErrorLevel: true,
       alertOnSendingData: true,
     };
 
@@ -50,7 +49,7 @@
         ret = postData({'level' : 'info', 'message' : message});
       }
       else {
-        console.log('Loggerhead.info has been called but it is disabled');
+        console.info('Loggerhead.info has been called but it is disabled');
       }
       return ret;
     }
@@ -77,18 +76,12 @@
     _loggerheadObject.error = function(message) {
       let ret;
       if (config.levels.error) {
-        ret = postData({'level' : 'error', 'message' : message}).then(alertOnLogErrorLevel(message));
+        ret = postData({'level' : 'error', 'message' : message});
       }
       else {
         console.log('Loggerhead.error has been called but it is disabled');
       }
       return ret;
-    }
-
-    function alertOnLogErrorLevel(message) {
-      if(config.alertOnLogErrorLevel) {
-        alert('An unhandled error occurred - ' + message);
-      }
     }
 
     _loggerheadObject.setBackendURL = function(newUrl) {
@@ -99,9 +92,6 @@
       config.levels.devug = flags.debug;
       config.levels.warning = flags.warning;
       config.levels.error = flags.error;
-    }
-    _loggerheadObject.enableAlertOnLogErrorLevel = function(flag) {
-      config.alertOnLogErrorLevel = flag;
     }
     _loggerheadObject.enableAlertOnSendingData = function(flag) {
       config.alertOnSendingData = flag;
