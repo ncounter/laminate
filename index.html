@@ -35,6 +35,7 @@
       <br />
       <input type='text' name='log-message' placeholder='write a log message to send' />
     </p>
+    <hr />
     <p>
       <i>Choose the severity log-level you want to test</i>
       <br />
@@ -53,31 +54,37 @@
       <i>Send the log message via Loggerhead.js</i>
       <br />
       <button id='send-log'>Send Log Message</button>
+      <br />
+      <br />
+      <i>The following is the return value of the POST request triggered by the 'Send Log Message' button above.</i>
+      <p id='text-result'><i>no-request sent yet</i></p>
+      <hr />
     </p>
     <p>
-      <i>Send the log message via Loggerhead.js after throwing a Javascript error</i>
+      <i>Send the log message through Loggerhead.js by throwing a simple Javascript error</i>
       <br />
       <button id='throw-error'>Throw Error</button>
     </p>
-    <p id='text-result'>
-    </p>
-
     <script>
       const Lh = window.Loggerhead;
+
+      // keep config values up-to-date
       const backendURLInput = document.getElementsByName('backend-URL')[0];
       backendURLInput.addEventListener('keyup', (e) => Lh.setBackendURL(e.target.value));
       backendURLInput.addEventListener('change', (e) => Lh.setBackendURL(e.target.value));
+      const alertOnError = document.getElementById('alert-on-error');
+      alertOnError.addEventListener('change', (e) => Lh.enableAlertOnLogErrorLevel(e.target.checked));
 
-      document.getElementById('alert-on-error')
-          .addEventListener('change', (e) => Lh.enableAlertOnErrorLevel(e.target.checked));
-      Lh.enableAlertOnErrorLevel(document.getElementById('alert-on-error').checked);
+      // set config values
+      Lh.setBackendURL(backendURLInput.value);
+      Lh.enableAlertOnLogErrorLevel(alertOnError.checked);
 
-      Lh.setBackendURL('https://httpbin.org/post');
-
+      // additional action after Loggerhead function call
       function writeResponse (jsonText) {
         document.getElementById('text-result').innerHTML = JSON.stringify(jsonText)
       }
 
+      // call Loggerhead function here, based on the choosen log level
       function sendLog() {
         const message = document.getElementsByName('log-message')[0].value;
         let result;
@@ -86,6 +93,7 @@
           case 'debug': result = Lh.debug(message); break;
           case 'warning': result = Lh.warning(message); break;
           case 'error': result = Lh.error(message); break;
+          default: result = Lh.info('[unknown log level]');
         }
 
         if (result){
@@ -94,6 +102,7 @@
       }
       document.getElementById('send-log').addEventListener('click', sendLog);
 
+      // let's see what happens with the Loggerhead plugin when an error is thrown
       function newError() {
         throw new Error("boom!");
       }
