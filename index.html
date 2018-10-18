@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>Laminate.js Tester</title>
+    <title>Loggerhead.js Tester</title>
     <style>
       input[type='text'] {
         width: 500px;
@@ -20,10 +20,10 @@
         margin-bottom: 0.3em;
       }
     </style>
-    <script type="text/javascript" src="laminate.js"></script>
+    <script type="text/javascript" src="loggerhead.js"></script>
   </head>
   <body>
-    <h3>Laminate.js tester</h3>
+    <h3>Loggerhead.js tester</h3>
     <span>Open browser's Development Tools pane and take a look at the "Console" tab or at "Network" tab</span>
     <p>
       <i>Set the backend URL where to POST the log message <small>(e.g.:  https://httpbin.org/post )</small></i>
@@ -50,12 +50,12 @@
       <input type='checkbox' id='alert-on-error' checked='checked' name='alert-on-error' />
     </p>
     <p>
-      <i>Send the log message via Laminate.js</i>
+      <i>Send the log message via Loggerhead.js</i>
       <br />
       <button id='send-log'>Send Log Message</button>
     </p>
     <p>
-      <i>Send the log message via Laminate.js after throwing a Javascript error</i>
+      <i>Send the log message via Loggerhead.js after throwing a Javascript error</i>
       <br />
       <button id='throw-error'>Throw Error</button>
     </p>
@@ -63,16 +63,16 @@
     </p>
 
     <script>
-      const Log = window.Laminate;
+      const Lh = window.Loggerhead;
       const backendURLInput = document.getElementsByName('backend-URL')[0];
-      backendURLInput.addEventListener('keyup', (e) => Log.setBackendURL(e.target.value));
-      backendURLInput.addEventListener('change', (e) => Log.setBackendURL(e.target.value));
+      backendURLInput.addEventListener('keyup', (e) => Lh.setBackendURL(e.target.value));
+      backendURLInput.addEventListener('change', (e) => Lh.setBackendURL(e.target.value));
 
       document.getElementById('alert-on-error')
-          .addEventListener('change', (e) => Log.enableAlertOnErrorLevel(e.target.checked));
-      Log.enableAlertOnErrorLevel(document.getElementById('alert-on-error').checked);
+          .addEventListener('change', (e) => Lh.enableAlertOnErrorLevel(e.target.checked));
+      Lh.enableAlertOnErrorLevel(document.getElementById('alert-on-error').checked);
 
-      Log.setBackendURL('https://httpbin.org/post');
+      Lh.setBackendURL('https://httpbin.org/post');
 
       function writeResponse (jsonText) {
         document.getElementById('text-result').innerHTML = JSON.stringify(jsonText)
@@ -82,10 +82,10 @@
         const message = document.getElementsByName('log-message')[0].value;
         let result;
         switch(document.querySelector('input[name="log-level"]:checked').value) {
-          case 'info': result = Log.info(message); break;
-          case 'debug': result = Log.debug(message); break;
-          case 'warning': result = Log.warning(message); break;
-          case 'error': result = Log.error(message); break;
+          case 'info': result = Lh.info(message); break;
+          case 'debug': result = Lh.debug(message); break;
+          case 'warning': result = Lh.warning(message); break;
+          case 'error': result = Lh.error(message); break;
         }
 
         if (result){
