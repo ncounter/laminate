@@ -24,12 +24,6 @@ levels:
     'warning': false, // disabled by default
     'error': true // enabled by default
   },
-
-// on an error event, alert the error message - enabled by default
-alertOnErrorLevel: true,
-
-// on a submitted POST request to send logs, alert the message - enabled by default
-alertOnSendingData: true,
 ```
 
 Parameters are configurable via specific endpoints:
@@ -40,7 +34,3 @@ Parameters are configurable via specific endpoints:
   ```javascript
   {'info': true, 'debug': true, 'warning': false, 'error': true}
   ```
-
-- `enableAlertOnErrorLevel(flag)`: flag is a `boolean`
-
-- `enableAlertOnSendingData(flag)`: flag is a `boolean`
