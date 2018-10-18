@@ -13,7 +13,6 @@
           warning: false,
           error: true
         },
-      alertOnSendingData: true,
     };
 
     function formatPostDataErrorMessage(opts, error) {
@@ -36,62 +35,35 @@
             {
               const errorMessage = formatPostDataErrorMessage(opts, error);
               console.error(errorMessage, error);
-              if (config.alertOnSendingData) {
-                alert(errorMessage);
-              }
             }
           );
       return result;
     }
     _loggerheadObject.info = function(message) {
-      let ret;
+      var ret = new Promise(function(resolve, reject) { resolve() });
       if (config.levels.info) {
         ret = postData({'level' : 'info', 'message' : message});
-      }
-      else {
-        ret = new Promise(function(resolve, reject) {
-          console.warn('Loggerhead.info has been called but it is disabled');
-          resolve();
-        });
       }
       return ret;
     }
     _loggerheadObject.debug = function(message) {
-      let ret;
+      var ret = new Promise(function(resolve, reject) { resolve() });
       if (config.levels.debug) {
         ret = postData({'level' : 'debug', 'message' : message});
-      }
-      else {
-        ret = new Promise(function(resolve, reject) {
-          console.warn('Loggerhead.debug has been called but it is disabled');
-          resolve();
-        });
       }
       return ret;
     }
     _loggerheadObject.warning = function(message) {
-      let ret;
+      var ret = new Promise(function(resolve, reject) { resolve() });
       if (config.levels.warning) {
         re = postData({'level' : 'warning', 'message' : message});
-      }
-      else {
-        ret = new Promise(function(resolve, reject) {
-          console.warn('Loggerhead.warning has been called but it is disabled');
-          resolve();
-        });
       }
       return ret;
     }
     _loggerheadObject.error = function(message) {
-      let ret;
+      var ret = new Promise(function(resolve, reject) { resolve() });
       if (config.levels.error) {
         ret = postData({'level' : 'error', 'message' : message});
-      }
-      else {
-        ret = new Promise(function(resolve, reject) {
-          console.warn('Loggerhead.error has been called but it is disabled');
-          resolve();
-        });
       }
       return ret;
     }
@@ -104,9 +76,6 @@
       config.levels.devug = flags.debug;
       config.levels.warning = flags.warning;
       config.levels.error = flags.error;
-    }
-    _loggerheadObject.enableAlertOnSendingData = function(flag) {
-      config.alertOnSendingData = flag;
     }
     return _loggerheadObject;
   }
