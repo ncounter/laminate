@@ -49,7 +49,10 @@
         ret = postData({'level' : 'info', 'message' : message});
       }
       else {
-        console.info('Loggerhead.info has been called but it is disabled');
+        ret = new Promise(function(resolve, reject) {
+          console.warn('Loggerhead.info has been called but it is disabled');
+          resolve();
+        });
       }
       return ret;
     }
@@ -59,7 +62,10 @@
         ret = postData({'level' : 'debug', 'message' : message});
       }
       else {
-        console.log('Loggerhead.debug has been called but it is disabled');
+        ret = new Promise(function(resolve, reject) {
+          console.warn('Loggerhead.debug has been called but it is disabled');
+          resolve();
+        });
       }
       return ret;
     }
@@ -69,7 +75,10 @@
         re = postData({'level' : 'warning', 'message' : message});
       }
       else {
-        console.log('Loggerhead.warning has been called but it is disabled');
+        ret = new Promise(function(resolve, reject) {
+          console.warn('Loggerhead.warning has been called but it is disabled');
+          resolve();
+        });
       }
       return ret;
     }
@@ -79,7 +88,10 @@
         ret = postData({'level' : 'error', 'message' : message});
       }
       else {
-        console.log('Loggerhead.error has been called but it is disabled');
+        ret = new Promise(function(resolve, reject) {
+          console.warn('Loggerhead.error has been called but it is disabled');
+          resolve();
+        });
       }
       return ret;
     }
