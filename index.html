@@ -68,7 +68,7 @@
       backendURLInput.addEventListener('change', (e) => Lh.setBackendURL(e.target.value));
 
       // set config values
-      Lh.setBackendURL(backendURLInput.value);
+      Lh.set({ postDataURL : backendURLInput.value });
 
       // additional action after Loggerhead function call
       function writeResponse (jsonText) {

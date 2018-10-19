@@ -36,41 +36,36 @@
     // public functions
     _loggerheadObject.info = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.levels.info) {
+      if (config.logLevels.info) {
         ret = postData({'level' : 'info', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.debug = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.levels.debug) {
+      if (config.logLevels.debug) {
         ret = postData({'level' : 'debug', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.warning = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.levels.warning) {
+      if (config.logLevels.warning) {
         ret = postData({'level' : 'warning', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.error = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.levels.error) {
+      if (config.logLevels.error) {
         ret = postData({'level' : 'error', 'message' : message});
       }
       return ret;
     }
 
-    _loggerheadObject.setBackendURL = function(newUrl) {
-      config.postDataURL = newUrl;
-    }
-    _loggerheadObject.enableLogLevels = function(flags) {
-      config.levels.info = flags.info;
-      config.levels.devug = flags.debug;
-      config.levels.warning = flags.warning;
-      config.levels.error = flags.error;
+    _loggerheadObject.set = function(configObject) {
+      const configMap = new Map(Object.entries(configObject));
+      Array.from(configMap.keys()).map(k => config[k] = configMap.get(k));
     }
     return _loggerheadObject;
   }
