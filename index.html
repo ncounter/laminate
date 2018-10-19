@@ -98,6 +98,12 @@
         throw new Error("boom!");
       }
       document.getElementById('throw-error').addEventListener('click', newError);
+
+
+      // uncomment the following to override built-in event listeners
+      // Lh.loadEventListener = (event) => console.log(event);
+      // Lh.unloadEventListener = (event) => console.log(event);
+      // Lh.errorEventListener = (event) => alert(event.message);
     </script>
   </body>
 </html>

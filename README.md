@@ -11,16 +11,23 @@ Log levels are
 * `warning`
 * `error`
 
-By default all levels are enabled. Whenever a log level function is called, it receives a string message, and it prepares a `POST` request and it forwards the message to the set `URL`, injecting in the data the `log level` as well.
+By default all levels are enabled. Whenever a log level function is called, it receives a string message, it prepares a `POST` request and it forwards the message to the set `URL`, injecting in the `POST` data the `log level` information.
 
 ### Events
-By default `Loggerhead.js` handles some `window event` by pre-configured `listener`s.
+By default `Loggerhead.js` handles also some `window event` (the typical types a user wants to store a log) by pre-configured `listener`s: they callback a dedicated built-in function per each type of `event`.
 
-Those `events` are:
+Types of `events` it listens for are:
 * `load`: it sends an `info` log level message containing the `DateTime` and the current `URL` page the browser loads
 * `unload`: same behavior of the `load` listener, but for unloading pages
 * `error`: it sends an `error` log level message containing some details of the error event that just happened
 
+These built-in functions are named following the pattern `<eventName>EventListener` (e.g.: [`loadEventListener`, `unloadEventListener`, `errorEventListener`]), they receive the `event` object as a parameter, and they can be overridden like the following:
+
+```javascript
+Lh.loadEventListener = (event) => console.log(event);
+Lh.unloadEventListener = (event) => console.log(event);
+Lh.errorEventListener = (event) => alert(event.message);
+```
 
 ## How to use
 ```html

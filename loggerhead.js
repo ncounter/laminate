@@ -71,13 +71,13 @@
       Array.from(configMap.keys()).map(k => config[k] = configMap.get(k));
     }
 
-    _loggerheadObject.loadListener = function(event) {
+    _loggerheadObject.loadEventListener = function(event) {
       this.info('[' + new Date().toUTCString() + '] - Loading "' + window.location + '"');
     }
-    _loggerheadObject.unloadListener = function(event) {
+    _loggerheadObject.unloadEventListener = function(event) {
       this.info('[' + new Date().toUTCString() + '] - Leaving "' + window.location + '"');
     }
-    _loggerheadObject.errorListener = function(event) {
+    _loggerheadObject.errorEventListener = function(event) {
       // Note that col & error are new to the HTML 5 and may not be supported in every browser.
       var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
       extra += !event.error ? '' : '\nerror: ' + event.error;
@@ -90,8 +90,8 @@
 
   if(typeof(window.Loggerhead) === 'undefined'){
     window.Loggerhead = Loggerhead();
-    window.addEventListener('load', function(event) { window.Loggerhead.loadListener(event) });
-    window.addEventListener('unload', function(event) { window.Loggerhead.unloadListener(event) });
-    window.addEventListener('error', function(event) { window.Loggerhead.errorListener(event) });
+    window.addEventListener('load', function(event) { window.Loggerhead.loadEventListener(event) });
+    window.addEventListener('unload', function(event) { window.Loggerhead.unloadEventListener(event) });
+    window.addEventListener('error', function(event) { window.Loggerhead.errorEventListener(event) });
   }
 })(window);
