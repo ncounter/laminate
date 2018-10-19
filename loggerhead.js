@@ -67,23 +67,28 @@
       const configMap = new Map(Object.entries(configObject));
       Array.from(configMap.keys()).map(k => config[k] = configMap.get(k));
     }
+
+    _loggerheadObject.loadListener = function(event) {
+      this.info('[' + new Date().toUTCString() + '] - Loading "' + window.location + '"');
+    }
+    _loggerheadObject.unloadListener = function(event) {
+      this.info('[' + new Date().toUTCString() + '] - Leaving "' + window.location + '"');
+    }
+    _loggerheadObject.errorListener = function(event) {
+      // Note that col & error are new to the HTML 5 and may not be supported in every browser.
+      var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
+      extra += !event.error ? '' : '\nerror: ' + event.error;
+
+      const errorMessage = event.message + "\nurl: " + event.filename + "\nline: " + event.lineno + extra;
+      this.error(errorMessage);
+    }
     return _loggerheadObject;
   }
 
   if(typeof(window.Loggerhead) === 'undefined'){
     window.Loggerhead = Loggerhead();
-    window.addEventListener('load', function() {
-      window.Loggerhead.info('[' + new Date().toUTCString() + '] - Loading "' + window.location + '"');
-    })
-    window.addEventListener('error', function(event) {
-      // Note that col & error are new to the HTML 5 and may not be supported in every browser.
-      var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
-      extra += !event.error ? '' : '\nerror: ' + event.error;
-
-      window.Loggerhead.error(event.message + "\nurl: " + event.filename + "\nline: " + event.lineno + extra);
-    });
-    window.addEventListener('unload', function() {
-      window.Loggerhead.info('[' + new Date().toUTCString() + '] - Leaving "' + window.location + '"');
-    });
+    window.addEventListener('load', function(event) { window.Loggerhead.loadListener(event) });
+    window.addEventListener('unload', function(event) { window.Loggerhead.unloadListener(event) });
+    window.addEventListener('error', function(event) { window.Loggerhead.errorListener(event) });
   }
 })(window);
