@@ -7,13 +7,7 @@
     // configuration object
     var config = {
       postDataURL: '',
-      levels:
-        {
-          info: true,
-          debug: false,
-          warning: false,
-          error: true
-        },
+      logLevels: { info: true, debug: true, warning: true, error: true },
     };
 
     // private functions

@@ -20,8 +20,8 @@ postDataURL: '',
 levels:
   {
     'info': true, // enabled by default
-    'debug': false, // disabled by default
-    'warning': false, // disabled by default
+    'debug': true, // enabled by default
+    'warning': true, // enabled by default
     'error': true // enabled by default
   },
 ```
