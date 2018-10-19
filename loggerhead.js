@@ -7,12 +7,15 @@
     // configuration object
     var config = {
       postDataURL: '',
-      logLevels: { info: true, debug: true, warning: true, error: true },
+      info: true,
+      debug: true,
+      warning: true,
+      error: true,
     };
 
     // private functions
     function formatPostDataErrorMessage(opts, error) {
-      return 'Error trying to send log message to "' + config.postDataURL + '"\n\n' +
+      return 'Error trying to send log message to "' + config.url + '"\n\n' +
           'POST JSON data was = ' + JSON.stringify(opts) + '\n\n' + error;
     }
     function postData(data) {
@@ -22,7 +25,7 @@
         redirect: 'follow', referrer: 'no-referrer',
         body: JSON.stringify(data),
       }
-      const result = fetch(config.postDataURL, opts)
+      const result = fetch(config.url, opts)
           .then(function (response) { return response.json();})
           .catch(error =>
             {
@@ -36,28 +39,28 @@
     // public functions
     _loggerheadObject.info = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.logLevels.info) {
+      if (config.info) {
         ret = postData({'level' : 'info', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.debug = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.logLevels.debug) {
+      if (config.debug) {
         ret = postData({'level' : 'debug', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.warning = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.logLevels.warning) {
+      if (config.warning) {
         ret = postData({'level' : 'warning', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.error = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.logLevels.error) {
+      if (config.error) {
         ret = postData({'level' : 'error', 'message' : message});
       }
       return ret;

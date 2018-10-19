@@ -7,30 +7,30 @@ A simple plain Javascript plugin to log frontend messages via a POST request.
 
 <script type="text/javascript">
   const Lh = window.Loggerhead;
-  Lh.setBackendURL('https://httpbin.org/post');
+  Lh.set({ url : 'https://httpbin.org/post' });
 </script>
 ```
 
 ## Config parameters
 ```javascript
 // the server endpoint where to send logs
-postDataURL: '',
+url : String,
 
-// log levels map
-levels:
-  {
-    'info': true, // enabled by default
-    'debug': true, // enabled by default
-    'warning': true, // enabled by default
-    'error': true // enabled by default
-  },
+// log levels, enabled by default
+info: Boolean,
+debug: Boolean,
+warning: Boolean,
+error: Boolean,
 ```
 
-Parameters are configurable via specific endpoints:
+Parameters are configurable passing a *partial* or *complete* config object with desired values to the `set` method:
 
-- `setBackendURL(newUrl)`: newUrl is a `String` like *http://myserver.com/my-frontend-log-endpoint*
-
-- `enableLogLevels(flags)`: flags is a `Map<string, boolean>` like
-  ```javascript
-  {'info': true, 'debug': true, 'warning': false, 'error': true}
-  ```
+```javascript
+Lh.set(
+  {
+    url : 'http://myserver.com/my-frontend-log-endpoint',
+    debug: false,
+    warning: false,
+  }
+);
+```

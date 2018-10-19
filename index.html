@@ -26,9 +26,9 @@
     <h3>Loggerhead.js tester</h3>
     <span>Open browser's Development Tools pane and take a look at the "Console" tab or at "Network" tab</span>
     <p>
-      <i>Set the backend URL where to POST the log message <small>(e.g.:  https://httpbin.org/post )</small></i>
+      <i>Set the enpoint URL where to POST the log message <small>(e.g.:  https://httpbin.org/post )</small></i>
       <br />
-      <input type='text' name='backend-URL' placeholder='set the backend URL' value='https://httpbin.org/post' />
+      <input type='text' name='url' placeholder='set the enpoint URL here' value='https://httpbin.org/post' />
     </p>
     <p>
       <i>Prepare the log message for the test</i>
@@ -39,10 +39,10 @@
     <p>
       <i>Choose the severity log-level you want to test</i>
       <br />
-      <input type='radio' id='info-level' value='info' name='log-level' checked /><label for='info-level'>info</label>
-      <input type='radio' id='debug-level' value='debug' name='log-level' /><label for='debug-level'>debug</label>
-      <input type='radio' id='warning-level' value='warning' name='log-level' /><label for='warning-level'>warning</label>
-      <input type='radio' id='error-level' value='error' name='log-level' /><label for='error-level'>error</label>
+      <input type='radio' id='info' value='info' name='log-level' checked /><label for='info'>info</label>
+      <input type='radio' id='debug' value='debug' name='log-level' /><label for='debug'>debug</label>
+      <input type='radio' id='warning' value='warning' name='log-level' /><label for='warning'>warning</label>
+      <input type='radio' id='error' value='error' name='log-level' /><label for='error'>error</label>
     </p>
     <p>
       <i>Send the log message via Loggerhead.js</i>
@@ -63,12 +63,12 @@
       const Lh = window.Loggerhead;
 
       // keep config values up-to-date
-      const backendURLInput = document.getElementsByName('backend-URL')[0];
-      backendURLInput.addEventListener('keyup', (e) => Lh.setBackendURL(e.target.value));
-      backendURLInput.addEventListener('change', (e) => Lh.setBackendURL(e.target.value));
+      const urlInput = document.getElementsByName('url')[0];
+      urlInput.addEventListener('keyup', (e) => Lh.set({ url : e.target.value }));
+      urlInput.addEventListener('change', (e) => Lh.set({ url : e.target.value }));
 
       // set config values
-      Lh.set({ postDataURL : backendURLInput.value });
+      Lh.set({ url : urlInput.value });
 
       // additional action after Loggerhead function call
       function writeResponse (jsonText) {
