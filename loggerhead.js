@@ -36,7 +36,7 @@
       return result;
     }
 
-    // public functions
+    // log level functions
     _loggerheadObject.info = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
       if (config.info) {
@@ -66,11 +66,13 @@
       return ret;
     }
 
+    // configuration parameters setter
     _loggerheadObject.set = function(configObject) {
       const configMap = new Map(Object.entries(configObject));
       Array.from(configMap.keys()).map(k => config[k] = configMap.get(k));
     }
 
+    // built-in event listeners
     _loggerheadObject.loadEventListener = function(event) {
       this.info('[' + new Date().toUTCString() + '] - Loading "' + window.location + '"');
     }
