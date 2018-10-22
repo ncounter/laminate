@@ -13,15 +13,23 @@
       error: true,
     };
 
+    _loggerheadObject.setHeaders = function(headers) {
+      return headers;
+    }
+
     // private functions
     function formatPostDataErrorMessage(opts, error) {
       return 'Error trying to send log message to `' + config.url + '`\n\n' +
           'POST JSON data was = ' + JSON.stringify(opts) + '\n\n' + error;
     }
     function postData(data) {
+      var headers = new Map();
+      headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = _loggerheadObject.setHeaders(headers);
+
       const opts = {
         method: 'POST', mode: 'cors', cache: 'no-cache', credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        headers: headers,
         redirect: 'follow', referrer: 'no-referrer',
         body: JSON.stringify(data),
       }

@@ -35,6 +35,24 @@ Lh.unloadEventListener = (event) => console.log(event);
 Lh.errorEventListener = (event) => alert(event.message);
 ```
 
+### Headers
+`Loggerhead.js` provides also a way to customize `headers` values of the `POST` request: this can be used to add some **authentication** parameters, for instance. The default method behaves like a `proxy` receiving and returning the default `headers` map (*). In order to add more `headers` parameters this method can be overridden by a function that receives and returns the `headers` map as well, but it does something in the middle. See below an example:
+
+```javascript
+// this is the default method
+Lh.setHeaders = function(headers) {
+  return headers;
+}
+
+// this overrides the default method adding the `X-CSRF-Token` parameters in the `headers` map
+Lh.setHeaders = function(headers) {
+  headers.set('X-CSRF-Token', '<my-token-value>');
+  return headers;
+}
+```
+
+(*) Note: by default `headers` contains only `{'Content-Type': 'application/json; charset=utf-8')}`
+
 ## How to use
 ```html
 <script type="text/javascript" src="loggerhead.js"></script>

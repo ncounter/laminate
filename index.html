@@ -104,6 +104,11 @@
       // Lh.loadEventListener = (event) => console.log(event);
       // Lh.unloadEventListener = (event) => console.log(event);
       // Lh.errorEventListener = (event) => alert(event.message);
+
+      Lh.setHeaders = function(headers) {
+        headers.set('X-CSRF-Token', '<my-token-value>');
+        return headers
+      }
     </script>
   </body>
 </html>
