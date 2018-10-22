@@ -15,7 +15,7 @@
 
     // private functions
     function formatPostDataErrorMessage(opts, error) {
-      return 'Error trying to send log message to "' + config.url + '"\n\n' +
+      return 'Error trying to send log message to `' + config.url + '`\n\n' +
           'POST JSON data was = ' + JSON.stringify(opts) + '\n\n' + error;
     }
     function postData(data) {
@@ -74,17 +74,17 @@
 
     // built-in event listeners
     _loggerheadObject.loadEventListener = function(event) {
-      this.info('[' + new Date().toUTCString() + '] - Loading "' + window.location + '"');
+      this.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
     }
     _loggerheadObject.unloadEventListener = function(event) {
-      this.info('[' + new Date().toUTCString() + '] - Leaving "' + window.location + '"');
+      this.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
     }
     _loggerheadObject.errorEventListener = function(event) {
       // Note that col & error are new to the HTML 5 and may not be supported in every browser.
       var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
       extra += !event.error ? '' : '\nerror: ' + event.error;
 
-      const errorMessage = event.message + "\nurl: " + event.filename + "\nline: " + event.lineno + extra;
+      const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
       this.error(errorMessage);
     }
     return _loggerheadObject;
