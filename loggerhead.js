@@ -6,11 +6,9 @@
 
     // configuration object
     var config = {
-      postDataURL: '',
-      info: true,
-      debug: true,
-      warning: true,
-      error: true,
+      url: '',
+      levels: {info: true, debug: true, warning: true, error: true},
+      events: {load: true, unload: true, error: true},
     };
 
     _loggerheadObject.setHeaders = function(headers) {
@@ -47,28 +45,28 @@
     // log level functions
     _loggerheadObject.info = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.info) {
+      if (config.levels.info) {
         ret = postData({'level' : 'info', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.debug = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.debug) {
+      if (config.levels.debug) {
         ret = postData({'level' : 'debug', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.warning = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.warning) {
+      if (config.levels.warning) {
         ret = postData({'level' : 'warning', 'message' : message});
       }
       return ret;
     }
     _loggerheadObject.error = function(message) {
       var ret = new Promise(function(resolve, reject) { resolve() });
-      if (config.error) {
+      if (config.levels.error) {
         ret = postData({'level' : 'error', 'message' : message});
       }
       return ret;
@@ -77,23 +75,39 @@
     // configuration parameters setter
     _loggerheadObject.set = function(configObject) {
       const configMap = new Map(Object.entries(configObject));
-      Array.from(configMap.keys()).map(k => config[k] = configMap.get(k));
+      Array.from(configMap.keys()).map(k => {
+        if (configMap.get(k) instanceof Object) {
+          const subConfigMap = new Map(Object.entries(configMap.get(k)));
+          Array.from(subConfigMap.keys()).map(kv => {
+            config[k][kv] = subConfigMap.get(kv);
+          });
+        }
+        else {
+          config[k] = configMap.get(k)
+        }
+      });
     }
 
     // built-in event listeners
     _loggerheadObject.loadEventListener = function(event) {
-      this.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
+      if (config.events.load) {
+        this.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
+      }
     }
     _loggerheadObject.unloadEventListener = function(event) {
-      this.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
+      if (config.events.unload) {
+        this.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
+      }
     }
     _loggerheadObject.errorEventListener = function(event) {
-      // Note that col & error are new to the HTML 5 and may not be supported in every browser.
-      var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
-      extra += !event.error ? '' : '\nerror: ' + event.error;
+      if (config.events.error) {
+        // Note that col & error are new to the HTML 5 and may not be supported in every browser.
+        var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
+        extra += !event.error ? '' : '\nerror: ' + event.error;
 
-      const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
-      this.error(errorMessage);
+        const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
+        this.error(errorMessage);
+      }
     }
     return _loggerheadObject;
   }

@@ -60,7 +60,7 @@ Lh.setHeaders = function(headers) {
 <script type="text/javascript">
   /* Minimal code to get Loggerhead working properly */
   const Lh = window.Loggerhead;
-  Lh.set({ url : 'https://httpbin.org/post' });
+  Lh.set({ url: 'https://httpbin.org/post' });
 
   /* Let's use Loggerhead functions to send some log messages */
   Lh.info('This is an info log message');
@@ -68,20 +68,29 @@ Lh.setHeaders = function(headers) {
       .then(confirm => alert(confirm));
 
   /* Let's disable debug log level */
-  Lh.set({ debug : false });
+  Lh.set({ levels: { debug : false }});
 </script>
 ```
 
 ## Config parameters
 ```javascript
 // the server endpoint where to send logs
-url : String,
+url: String,
 
 // log levels, enabled by default
-info: Boolean,
-debug: Boolean,
-warning: Boolean,
-error: Boolean,
+levels: {
+  info: Boolean,
+  debug: Boolean,
+  warning: Boolean,
+  error: Boolean,
+}
+
+// built-in event handlers, enabled by default
+events: {
+  load: Boolean,
+  unload: Boolean,
+  error: Boolean,
+}
 ```
 
 Parameters are configurable passing a *partial* or *complete* config object with desired values to the `set` method:
@@ -89,9 +98,14 @@ Parameters are configurable passing a *partial* or *complete* config object with
 ```javascript
 Lh.set(
   {
-    url : 'http://myserver.com/my-frontend-log-endpoint',
-    debug: false,
-    warning: false,
+    url: 'http://myserver.com/my-frontend-log-endpoint',
+    levels: {
+      debug: false,
+      warning: false,
+    },
+    events: {
+      unload: false
+    }
   }
 );
 ```
