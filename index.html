@@ -60,15 +60,13 @@
       <button id='throw-error'>Throw Error</button>
     </p>
     <script>
-      const Lh = window.Loggerhead;
-
       // keep config values up-to-date
       const urlInput = document.getElementsByName('url')[0];
-      urlInput.addEventListener('keyup', (e) => Lh.set({ url : e.target.value }));
-      urlInput.addEventListener('change', (e) => Lh.set({ url : e.target.value }));
+      urlInput.addEventListener('keyup', (e) => Loggerhead.set({ url : e.target.value }));
+      urlInput.addEventListener('change', (e) => Loggerhead.set({ url : e.target.value }));
 
       // set config values
-      Lh.set({ url : urlInput.value });
+      Loggerhead.set({ url : urlInput.value });
 
       // additional action after Loggerhead function call
       function writeResponse (jsonText) {
@@ -80,11 +78,11 @@
         const message = document.getElementsByName('log-message')[0].value;
         let result;
         switch(document.querySelector('input[name="log-level"]:checked').value) {
-          case 'info': result = Lh.info(message); break;
-          case 'debug': result = Lh.debug(message); break;
-          case 'warning': result = Lh.warning(message); break;
-          case 'error': result = Lh.error(message); break;
-          default: result = Lh.info('[unknown log level]');
+          case 'info': result = Loggerhead.info(message); break;
+          case 'debug': result = Loggerhead.debug(message); break;
+          case 'warning': result = Loggerhead.warning(message); break;
+          case 'error': result = Loggerhead.error(message); break;
+          default: result = Loggerhead.info('[unknown log level]');
         }
 
         if (result){
@@ -105,7 +103,7 @@
       // Lh.unloadEventListener = (event) => console.log(event);
       // Lh.errorEventListener = (event) => alert(event.message);
 
-      Lh.setHeaders = function(headers) {
+      Loggerhead.setHeaders = function(headers) {
         headers.set('X-CSRF-Token', '<my-token-value>');
         return headers
       }

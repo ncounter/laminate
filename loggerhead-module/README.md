@@ -15,7 +15,7 @@ By default all levels are enabled. Whenever a log level function is called, it r
 
 **Note**: each log level function returns the `Promise` that sends the `POST` request, this way it is possible to add a `.then()` slice in order to apply some other action on the `response` (if any) from the server after storing the log message. See an example below:
 ```javascript
-Lh.info('Send this info log message to the server')
+Loggerhead.info('Send this info log message to the server')
     .then(serverResponse => alert(serverResponse.message));
 ```
 
@@ -30,9 +30,9 @@ Types of `events` it listens for are:
 These built-in functions are named following the pattern `<eventName>EventListener` (e.g.: [`loadEventListener`, `unloadEventListener`, `errorEventListener`]), they receive the `event` object as a parameter, and they can be overridden like the following:
 
 ```javascript
-Lh.loadEventListener = (event) => console.log(event);
-Lh.unloadEventListener = (event) => console.log(event);
-Lh.errorEventListener = (event) => alert(event.message);
+Loggerhead.loadEventListener = (event) => console.log(event);
+Loggerhead.unloadEventListener = (event) => console.log(event);
+Loggerhead.errorEventListener = (event) => alert(event.message);
 ```
 
 ### Headers
@@ -40,12 +40,12 @@ Lh.errorEventListener = (event) => alert(event.message);
 
 ```javascript
 // this is the default method
-Lh.setHeaders = function(headers) {
+Loggerhead.setHeaders = function(headers) {
   return headers;
 }
 
 // this overrides the default method adding the `X-CSRF-Token` parameters in the `headers` map
-Lh.setHeaders = function(headers) {
+Loggerhead.setHeaders = function(headers) {
   headers.set('X-CSRF-Token', '<my-token-value>');
   return headers;
 }
@@ -59,16 +59,16 @@ Lh.setHeaders = function(headers) {
 
 <script type="text/javascript">
   /* Minimal code to get Loggerhead working properly */
-  const Lh = window.Loggerhead;
-  Lh.set({ url: 'https://httpbin.org/post' });
+  const Loggerhead = window.Loggerhead;
+  Loggerhead.set({ url: 'https://httpbin.org/post' });
 
   /* Let's use Loggerhead functions to send some log messages */
-  Lh.info('This is an info log message');
-  Lh.warning('This is an warning log message')
+  Loggerhead.info('This is an info log message');
+  Loggerhead.warning('This is an warning log message')
       .then(confirm => alert(confirm));
 
   /* Let's disable debug log level */
-  Lh.set({ levels: { debug : false }});
+  Loggerhead.set({ levels: { debug : false }});
 </script>
 ```
 
@@ -96,7 +96,7 @@ events: {
 Parameters are configurable passing a *partial* or *complete* config object with desired values to the `set` method:
 
 ```javascript
-Lh.set(
+Loggerhead.set(
   {
     url: 'http://myserver.com/my-frontend-log-endpoint',
     levels: {
