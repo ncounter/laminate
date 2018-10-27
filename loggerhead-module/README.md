@@ -59,7 +59,7 @@ Loggerhead.setHeaders = function(headers) {
 
 <script type="text/javascript">
   /* Minimal code to get Loggerhead working properly */
-  const Loggerhead = window.Loggerhead;
+  var Loggerhead = require('loggerhead-module').Loggerhead;
   Loggerhead.set({ url: 'https://httpbin.org/post' });
 
   /* Let's use Loggerhead functions to send some log messages */

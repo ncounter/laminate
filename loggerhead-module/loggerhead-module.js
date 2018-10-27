@@ -111,3 +111,5 @@ var Loggerhead = {};
   }
   window.addEventListener('error', function(event) { _context.errorEventListener(event) });
 })(Loggerhead);
+
+exports.Loggerhead = Loggerhead;
