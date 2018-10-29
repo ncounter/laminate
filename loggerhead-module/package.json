@@ -1,6 +1,6 @@
 {
   "name": "loggerhead-module",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "A simple plain Javascript plugin to log frontend messages to a server.",
   "main": "loggerhead-module.js",
   "scripts": {
