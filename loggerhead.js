@@ -19,6 +19,10 @@ var Loggerhead = {};
         'POST JSON data was = ' + JSON.stringify(opts) + '\n\n' + error;
   }
   function postData(data) {
+    if (config.url == '') {
+      console.warn('[Loggerhead] : no server url set to send the POST request!!');
+      return new Promise(resolve => resolve());
+    }
     var headers = new Map();
     headers.set('Content-Type', 'application/json; charset=utf-8');
     headers = _context.setHeaders(headers);
