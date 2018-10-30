@@ -6,6 +6,7 @@ var Loggerhead = {};
   var config = {
     url: '',
     levels: {info: true, debug: true, warning: true, error: true},
+    console: {info: false, debug: false, warning: false, error: false},
     events: {load: true, unload: true, error: true},
   };
 
@@ -49,12 +50,18 @@ var Loggerhead = {};
     if (config.levels.info) {
       ret = postData({'level' : 'info', 'message' : message});
     }
+    if(config.console.info) {
+      console.info(message);
+    }
     return ret;
   }
   _context.debug = function(message) {
     var ret = new Promise(function(resolve, reject) { resolve() });
     if (config.levels.debug) {
       ret = postData({'level' : 'debug', 'message' : message});
+    }
+    if(config.console.debug) {
+      console.debug(message);
     }
     return ret;
   }
@@ -63,12 +70,18 @@ var Loggerhead = {};
     if (config.levels.warning) {
       ret = postData({'level' : 'warning', 'message' : message});
     }
+    if(config.console.warning) {
+      console.warn(message);
+    }
     return ret;
   }
   _context.error = function(message) {
     var ret = new Promise(function(resolve, reject) { resolve() });
     if (config.levels.error) {
       ret = postData({'level' : 'error', 'message' : message});
+    }
+    if(config.console.error) {
+      console.error(message);
     }
     return ret;
   }

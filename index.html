@@ -66,7 +66,7 @@
       urlInput.addEventListener('change', (e) => Loggerhead.set({ url : e.target.value }));
 
       // set config values
-      Loggerhead.set({ url : urlInput.value });
+      Loggerhead.set({ url : urlInput.value, console: { info: true, warning: true } });
 
       // additional action after Loggerhead function call
       function writeResponse (jsonText) {

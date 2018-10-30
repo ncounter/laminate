@@ -11,7 +11,7 @@ Log levels are
 * `warning`
 * `error`
 
-By default all levels are enabled. Whenever a log level function is called, it receives a string message, it prepares a `POST` request and it forwards the message to the set `URL`, injecting in the `POST` data the `log level` information.
+By default all levels are enabled. Whenever a log level function is called, it receives a string message, it prepares a `POST` request and it forwards the message to the set `URL`, injecting in the `POST` data the `log level` information. At the same time, all the same correspondant levels are available but disabled for the `console` to be shown. The enable/disable can be toggled by config parameters.
 
 **Note**: each log level function returns the `Promise` that sends the `POST` request, this way it is possible to add a `.then()` slice in order to apply some other action on the `response` (if any) from the server after storing the log message. See an example below:
 ```javascript
@@ -69,6 +69,9 @@ Loggerhead.setHeaders = function(headers) {
 
   /* Let's disable debug log level */
   Loggerhead.set({ levels: { debug : false }});
+
+  /* Let's enable info and warning levels for the console */
+  Loggerhead.set({ console: { info : true, warning: true }});
 </script>
 ```
 
@@ -79,6 +82,14 @@ url: String,
 
 // log levels, enabled by default
 levels: {
+  info: Boolean,
+  debug: Boolean,
+  warning: Boolean,
+  error: Boolean,
+}
+
+// console log levels, disabled by default
+console: {
   info: Boolean,
   debug: Boolean,
   warning: Boolean,
@@ -102,6 +113,10 @@ Loggerhead.set(
     levels: {
       debug: false,
       warning: false,
+    },
+    console: {
+      info: true,
+      warning: true,
     },
     events: {
       unload: false
