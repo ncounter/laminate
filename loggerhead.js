@@ -86,20 +86,21 @@ var Loggerhead = {};
     return ret;
   }
 
-  // configuration parameters setter
-  _context.set = function(configObject) {
-    const configMap = new Map(Object.entries(configObject));
-    Array.from(configMap.keys()).map(k => {
-      if (configMap.get(k) instanceof Object) {
-        const subConfigMap = new Map(Object.entries(configMap.get(k)));
-        Array.from(subConfigMap.keys()).map(kv => {
-          config[k][kv] = subConfigMap.get(kv);
-        });
+  function setMapFromObject(fromObj, toMap) {
+    const fromMap = new Map(Object.entries(fromObj));
+    Array.from(fromMap.keys()).map(k => {
+      if (toMap[k] != null && fromMap.get(k) instanceof Object) {
+        setMapFromObject(fromMap.get(k), toMap[k]);
       }
       else {
-        config[k] = configMap.get(k)
+        toMap[k] = fromMap.get(k);
       }
     });
+  }
+
+  // configuration parameters setter
+  _context.set = function(configObject) {
+    setMapFromObject(configObject, config);
   }
 
   // built-in event listeners
