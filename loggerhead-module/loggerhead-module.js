@@ -86,20 +86,21 @@ var Loggerhead = {};
     return ret;
   }
 
-  // configuration parameters setter
-  _context.set = function(configObject) {
-    const configMap = new Map(Object.entries(configObject));
-    Array.from(configMap.keys()).map(k => {
-      if (configMap.get(k) instanceof Object) {
-        const subConfigMap = new Map(Object.entries(configMap.get(k)));
-        Array.from(subConfigMap.keys()).map(kv => {
-          config[k][kv] = subConfigMap.get(kv);
-        });
+  function setMapFromObject(fromObj, toMap) {
+    const fromMap = new Map(Object.entries(fromObj));
+    Array.from(fromMap.keys()).map(k => {
+      if (toMap[k] != null && fromMap.get(k) instanceof Object) {
+        setMapFromObject(fromMap.get(k), toMap[k]);
       }
       else {
-        config[k] = configMap.get(k)
+        toMap[k] = fromMap.get(k);
       }
     });
+  }
+
+  // configuration parameters setter
+  _context.set = function(configObject) {
+    setMapFromObject(configObject, config);
   }
 
   // built-in event listeners
@@ -108,15 +109,11 @@ var Loggerhead = {};
       this.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
     }
   }
-  window.addEventListener('load', function(event) { _context.loadEventListener(event) });
-
   _context.unloadEventListener = function(event) {
     if (config.events.unload) {
       this.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
     }
   }
-  window.addEventListener('unload', function(event) { _context.unloadEventListener(event) });
-
   _context.errorEventListener = function(event) {
     if (config.events.error) {
       // Note that col & error are new to the HTML 5 and may not be supported in every browser.
@@ -126,7 +123,11 @@ var Loggerhead = {};
       this.error(errorMessage);
     }
   }
-  window.addEventListener('error', function(event) { _context.errorEventListener(event) });
+  if (window != null) {
+    window.addEventListener('load', function(event) { _context.loadEventListener(event) });
+    window.addEventListener('unload', function(event) { _context.unloadEventListener(event) });
+    window.addEventListener('error', function(event) { _context.errorEventListener(event) });
+  }
 })(Loggerhead);
 
 exports.Loggerhead = Loggerhead;

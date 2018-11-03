@@ -109,15 +109,11 @@ var Loggerhead = {};
       this.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
     }
   }
-  window.addEventListener('load', function(event) { _context.loadEventListener(event) });
-
   _context.unloadEventListener = function(event) {
     if (config.events.unload) {
       this.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
     }
   }
-  window.addEventListener('unload', function(event) { _context.unloadEventListener(event) });
-
   _context.errorEventListener = function(event) {
     if (config.events.error) {
       // Note that col & error are new to the HTML 5 and may not be supported in every browser.
@@ -127,5 +123,9 @@ var Loggerhead = {};
       this.error(errorMessage);
     }
   }
-  window.addEventListener('error', function(event) { _context.errorEventListener(event) });
+  if (window != null) {
+    window.addEventListener('load', function(event) { _context.loadEventListener(event) });
+    window.addEventListener('unload', function(event) { _context.unloadEventListener(event) });
+    window.addEventListener('error', function(event) { _context.errorEventListener(event) });
+  }
 })(Loggerhead);
