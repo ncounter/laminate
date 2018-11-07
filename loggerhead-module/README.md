@@ -53,6 +53,11 @@ Loggerhead.setHeaders = function(headers) {
 
 (*) Note: by default `headers` contains only `{'Content-Type': 'application/json; charset=utf-8')}`
 
+## Installation
+```
+npm install loggerhead-module
+```
+
 ## How to use
 ```html
 <script type="text/javascript" src="loggerhead.js"></script>
