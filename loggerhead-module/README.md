@@ -2,7 +2,7 @@
 A simple plain Javascript plugin to log frontend messages to a server.
 
 ## How it works
-`Loggerhead.js` sends a log message to a configurable endpoint URL by a POST request each time one of the `log level` function is called.
+`Loggerhead-module.js` sends a log message to a configurable endpoint URL by a POST request each time one of the `log level` function is called.
 
 ### Log levels
 Log levels are
@@ -19,24 +19,8 @@ Loggerhead.info('Send this info log message to the server')
     .then(serverResponse => alert(serverResponse.message));
 ```
 
-### Events
-By default `Loggerhead.js` handles also some `window event` (the typical types a user wants to store a log for) by pre-configured `listener`s: they callback a dedicated built-in function per each type of `event`.
-
-Types of `events` it listens for are:
-* `load`: it sends an `info` log level message containing the `DateTime` and the current `URL` page the browser loads
-* `unload`: same behavior of the `load` listener, but for unloading pages
-* `error`: it sends an `error` log level message containing some details of the error event that just happened
-
-These built-in functions are named following the pattern `<eventName>EventListener` (e.g.: [`loadEventListener`, `unloadEventListener`, `errorEventListener`]), they receive the `event` object as a parameter, and they can be overridden like the following:
-
-```javascript
-Loggerhead.loadEventListener = (event) => console.log(event);
-Loggerhead.unloadEventListener = (event) => console.log(event);
-Loggerhead.errorEventListener = (event) => alert(event.message);
-```
-
 ### Headers
-`Loggerhead.js` provides also a way to customize `headers` values of the `POST` request: this can be used to add some **authentication** parameters, for instance. The default method behaves like a `proxy` receiving and returning the default `headers` map (*). In order to add more `headers` parameters this method can be overridden by a function that receives and returns the `headers` map as well, but it does something in the middle. See below an example:
+`Loggerhead-module.js` provides also a way to customize `headers` values of the `POST` request: this can be used to add some **authentication** parameters, for instance. The default method behaves like a `proxy` receiving and returning the default `headers` map (*). In order to add more `headers` parameters this method can be overridden by a function that receives and returns the `headers` map as well, but it does something in the middle. See below an example:
 
 ```javascript
 // this is the default method
@@ -59,12 +43,9 @@ npm install loggerhead-module
 ```
 
 ## How to use
-```html
-<script type="text/javascript" src="loggerhead.js"></script>
-
-<script type="text/javascript">
+```javascript
   /* Minimal code to get Loggerhead working properly */
-  var Loggerhead = require('loggerhead-module').Loggerhead;
+  var Loggerhead = require('loggerhead-module').create();
   Loggerhead.set({ url: 'https://httpbin.org/post' });
 
   /* Let's use Loggerhead functions to send some log messages */
@@ -77,7 +58,6 @@ npm install loggerhead-module
 
   /* Let's enable info and warning levels for the console */
   Loggerhead.set({ console: { info : true, warning: true }});
-</script>
 ```
 
 ## Config parameters
@@ -100,13 +80,6 @@ console: {
   warning: Boolean,
   error: Boolean,
 }
-
-// built-in event handlers, enabled by default
-events: {
-  load: Boolean,
-  unload: Boolean,
-  error: Boolean,
-}
 ```
 
 Parameters are configurable passing a *partial* or *complete* config object with desired values to the `set` method:
@@ -122,9 +95,6 @@ Loggerhead.set(
     console: {
       info: true,
       warning: true,
-    },
-    events: {
-      unload: false
     }
   }
 );

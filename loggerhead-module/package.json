@@ -1,6 +1,6 @@
 {
   "name": "loggerhead-module",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A simple plain Javascript plugin to log frontend messages to a server.",
   "main": "loggerhead-module.js",
   "scripts": {
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ncounter/loggerhead/issues"
   },
-  "homepage": "https://github.com/ncounter/loggerhead#readme"
+  "homepage": "https://github.com/ncounter/loggerhead#readme",
+  "dependencies": {
+    "node-fetch": "*"
+  }
 }

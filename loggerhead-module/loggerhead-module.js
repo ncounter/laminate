@@ -1,7 +1,10 @@
 'use strict';
 
-var Loggerhead = {};
-(function(_context){
+const fetch = require('node-fetch');
+
+function create() {
+  var _loggerhead = {};
+
   // configuration object
   var config = {
     url: '',
@@ -10,7 +13,7 @@ var Loggerhead = {};
     events: {load: true, unload: true, error: true},
   };
 
-  _context.setHeaders = function(headers) {
+  _loggerhead.setHeaders = function(headers) {
     return headers;
   }
 
@@ -26,7 +29,7 @@ var Loggerhead = {};
     }
     var headers = new Map();
     headers.set('Content-Type', 'application/json; charset=utf-8');
-    headers = _context.setHeaders(headers);
+    headers = _loggerhead.setHeaders(headers);
     const opts = {
       method: 'POST', mode: 'cors', cache: 'no-cache', credentials: 'same-origin',
       headers: headers,
@@ -45,7 +48,7 @@ var Loggerhead = {};
   }
 
   // log level functions
-  _context.info = function(message) {
+  _loggerhead.info = function(message) {
     var ret = new Promise(function(resolve, reject) { resolve() });
     if (config.levels.info) {
       ret = postData({'level' : 'info', 'message' : message});
@@ -55,7 +58,7 @@ var Loggerhead = {};
     }
     return ret;
   }
-  _context.debug = function(message) {
+  _loggerhead.debug = function(message) {
     var ret = new Promise(function(resolve, reject) { resolve() });
     if (config.levels.debug) {
       ret = postData({'level' : 'debug', 'message' : message});
@@ -65,7 +68,7 @@ var Loggerhead = {};
     }
     return ret;
   }
-  _context.warning = function(message) {
+  _loggerhead.warning = function(message) {
     var ret = new Promise(function(resolve, reject) { resolve() });
     if (config.levels.warning) {
       ret = postData({'level' : 'warning', 'message' : message});
@@ -75,7 +78,7 @@ var Loggerhead = {};
     }
     return ret;
   }
-  _context.error = function(message) {
+  _loggerhead.error = function(message) {
     var ret = new Promise(function(resolve, reject) { resolve() });
     if (config.levels.error) {
       ret = postData({'level' : 'error', 'message' : message});
@@ -99,35 +102,13 @@ var Loggerhead = {};
   }
 
   // configuration parameters setter
-  _context.set = function(configObject) {
+  _loggerhead.set = function(configObject) {
     setMapFromObject(configObject, config);
   }
 
-  // built-in event listeners
-  _context.loadEventListener = function(event) {
-    if (config.events.load) {
-      this.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
-    }
-  }
-  _context.unloadEventListener = function(event) {
-    if (config.events.unload) {
-      this.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
-    }
-  }
-  _context.errorEventListener = function(event) {
-    if (config.events.error) {
-      // Note that col & error are new to the HTML 5 and may not be supported in every browser.
-      var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
-      extra += !event.error ? '' : '\nerror: ' + event.error;
-      const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
-      this.error(errorMessage);
-    }
-  }
-  if (window != null) {
-    window.addEventListener('load', function(event) { _context.loadEventListener(event) });
-    window.addEventListener('unload', function(event) { _context.unloadEventListener(event) });
-    window.addEventListener('error', function(event) { _context.errorEventListener(event) });
-  }
-})(Loggerhead);
+  return _loggerhead;
+}
 
-exports.Loggerhead = Loggerhead;
+module.exports = {
+  create : create
+}
