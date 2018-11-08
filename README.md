@@ -1,5 +1,5 @@
 # Loggerhead
-A simple plain Javascript plugin to log frontend messages to a server.
+A simple plain Javascript plugin to send frontend log messages to a server.
 
 Note: `Loggerhead` is available in **npm module** version as well.
  - [npm module package](https://www.npmjs.com/package/loggerhead-module)

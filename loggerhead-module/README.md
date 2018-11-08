@@ -1,5 +1,5 @@
 # Loggerhead-module
-A simple plain Javascript plugin to log frontend messages to a server.
+A simple npm module to send frontend log messages to a server.
 
 ## How it works
 `Loggerhead-module.js` sends a log message to a configurable endpoint URL by a POST request each time one of the `log level` function is called.
@@ -61,6 +61,29 @@ npm install loggerhead-module
   /* Let's disable info and debug levels for the console */
   Loggerhead.set({ console: { info : false, debug: false }});
 ```
+
+## Use case
+This `module` can be used in a browser scenario, adding `listeners` for specific `events` and `callback` log functions in order to send and store log messages about the `event` that just triggered the `Loggerhead`.
+
+```javascript
+  // store a log message about the page has been loaded
+  window.addEventListener('load', function(event) {
+    Loggerhead.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
+  });
+  // store a log message about a page has been left
+  window.addEventListener('unload', function(event) {
+    Loggerhead.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
+  });
+  // store a log message about the error that just happened
+  window.addEventListener('error', function(event) {
+    // Note that col & error are new to the HTML 5 and may not be supported in every browser.
+    var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
+    extra += !event.error ? '' : '\nerror: ' + event.error;
+    const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
+    this.error(errorMessage);
+  });
+```
+
 
 ## Config parameters
 ```javascript
