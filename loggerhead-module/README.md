@@ -1,4 +1,4 @@
-# Loggerhead
+# Loggerhead-module
 A simple plain Javascript plugin to log frontend messages to a server.
 
 ## How it works
