@@ -66,11 +66,11 @@
       urlInput.addEventListener('change', (e) => Loggerhead.set({ url : e.target.value }));
 
       // set config values
-      Loggerhead.set({ url : urlInput.value, console: { info: true, warning: true } });
+      Loggerhead.set({ url : urlInput.value, console: { info: false, debug: false } });
 
       // additional action after Loggerhead function call
       function writeResponse (jsonText) {
-        document.getElementById('text-result').innerHTML = JSON.stringify(JSON.parse(jsonText.data))
+        document.getElementById('text-result').innerHTML = JSON.stringify(jsonText)
       }
 
       // call Loggerhead function here, based on the choosen log level
@@ -86,7 +86,7 @@
         }
 
         if (result){
-          result.then(resultJson => writeResponse(resultJson));
+          result.then(resultJson => writeResponse(JSON.parse(resultJson.data))).catch(e => writeResponse(e));
         }
       }
       document.getElementById('send-log').addEventListener('click', sendLog);

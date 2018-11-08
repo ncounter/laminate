@@ -11,7 +11,7 @@ Log levels are
 * `warning`
 * `error`
 
-By default all levels are enabled. Whenever a log level function is called, it receives a string message, it prepares a `POST` request and it forwards the message to the set `URL`, injecting in the `POST` data the `log level` information. At the same time, all the same correspondant levels are available but disabled for the `console` to be shown. The enable/disable can be toggled by config parameters.
+By default all levels are enabled. Whenever a log level function is called, it receives a string message, it prepares a `POST` request and it forwards the message to the set `URL`, injecting in the `POST` data the `log level` information. At the same time, all the same correspondant levels are available and enabled for the `console` to be shown. The enable/disable can be toggled by config parameters.
 
 **Note**: each log level function returns the `Promise` that sends the `POST` request, this way it is possible to add a `.then()` slice in order to apply some other action on the `response` (if any) from the server after storing the log message. See an example below:
 ```javascript
@@ -64,13 +64,14 @@ Loggerhead.setHeaders = function(headers) {
   /* Let's use Loggerhead functions to send some log messages */
   Loggerhead.info('This is an info log message');
   Loggerhead.warning('This is an warning log message')
-      .then(confirm => alert(confirm));
+      .then(confirm => alert(confirm))
+      .catch(error => alert(error));
 
   /* Let's disable debug log level */
   Loggerhead.set({ levels: { debug : false }});
 
-  /* Let's enable info and warning levels for the console */
-  Loggerhead.set({ console: { info : true, warning: true }});
+  /* Let's disable info and debug levels for the console */
+  Loggerhead.set({ console: { info : false, debug: false }});
 </script>
 ```
 
@@ -87,7 +88,7 @@ levels: {
   error: Boolean,
 }
 
-// console log levels, disabled by default
+// console log levels, enabled by default
 console: {
   info: Boolean,
   debug: Boolean,
@@ -114,8 +115,8 @@ Loggerhead.set(
       warning: false,
     },
     console: {
-      info: true,
-      warning: true,
+      info: false,
+      debug: false,
     },
     events: {
       unload: false

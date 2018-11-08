@@ -6,7 +6,7 @@ var Loggerhead = {};
   var config = {
     url: '',
     levels: {info: true, debug: true, warning: true, error: true},
-    console: {info: false, debug: false, warning: false, error: false},
+    console: {info: true, debug: true, warning: true, error: true},
     events: {load: true, unload: true, error: true},
   };
 
@@ -14,15 +14,14 @@ var Loggerhead = {};
     return headers;
   }
 
-  // private functions
-  function formatPostDataErrorMessage(opts, error) {
-    return 'Error trying to send log message to `' + config.url + '`\n\n' +
-        'POST JSON data was = ' + JSON.stringify(opts) + '\n\n' + error;
-  }
+  // private function
   function postData(data) {
     if (config.url == '') {
-      console.warn('[Loggerhead] : no server url set to send the POST request!!');
-      return new Promise(resolve => resolve());
+      const errorMessage = '[Loggerhead] ERROR: no server enpoint URL set to send the POST request!! ';
+      if(config.console.error) {
+        console.error(errorMessage);
+      }
+      return new Promise((resolve, reject) => reject(errorMessage));
     }
     var headers = new Map();
     headers.set('Content-Type', 'application/json; charset=utf-8');
@@ -37,8 +36,17 @@ var Loggerhead = {};
         .then(function (response) { return response.json();})
         .catch(error =>
           {
-            const errorMessage = formatPostDataErrorMessage(opts, error);
-            console.error(errorMessage, error);
+            if(config.console.error) {
+              const errorMessage =
+                'Error trying to send log message to `' +
+                config.url +
+                '`\n\n' +
+                'POST JSON data was = ' +
+                JSON.stringify(opts) +
+                '\n\n' +
+                error;
+              console.error(errorMessage, error);
+            }
           }
         );
     return result;
