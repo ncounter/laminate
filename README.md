@@ -1,6 +1,10 @@
 # Loggerhead
 A simple plain Javascript plugin to log frontend messages to a server.
 
+Note: `Loggerhead` is available in **npm module** version as well.
+ - [npm module package](https://www.npmjs.com/package/loggerhead-module)
+ - [git repo](https://github.com/ncounter/loggerhead/tree/master/loggerhead-module) - *it is just an internal subfolder of the current `Loggerhead.js` git repo project*
+
 ## How it works
 `Loggerhead.js` sends a log message to a configurable endpoint URL by a POST request each time one of the `log level` function is called.
 
