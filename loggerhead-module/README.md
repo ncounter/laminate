@@ -45,8 +45,8 @@ npm install loggerhead-module
 ## How to use
 ```javascript
   /* Minimal code to get Loggerhead working properly */
-  var Loggerhead = require('loggerhead-module').create();
-  Loggerhead.set({ url: 'https://httpbin.org/post' });
+  const Loggerhead = require('loggerhead-module').create({ url: 'https://httpbin.org/post' });
+
 
   /* Let's use Loggerhead functions to send some log messages */
   Loggerhead.info('This is an info log message');
@@ -82,9 +82,11 @@ console: {
 }
 ```
 
-Parameters are configurable passing a *partial* or *complete* config object with desired values to the `set` method:
+Parameters are configurable passing a *partial* or *complete* config object with desired values at the beginning to the `create` method call, or later on to the `set` method:
 
 ```javascript
+const Loggerhead = require('loggerhead-module').create({ url: 'https://httpbin.org/post' });
+
 Loggerhead.set(
   {
     url: 'http://myserver.com/my-frontend-log-endpoint',
