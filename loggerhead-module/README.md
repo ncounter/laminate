@@ -16,7 +16,8 @@ By default all levels are enabled. Whenever a log level function is called, it r
 **Note**: each log level function returns the `Promise` that sends the `POST` request, this way it is possible to add a `.then()` slice in order to apply some other action on the `response` (if any) from the server after storing the log message. See an example below:
 ```javascript
 Loggerhead.info('Send this info log message to the server')
-    .then(serverResponse => alert(serverResponse.message));
+    .then(serverResponse => alert(serverResponse.message))
+    .catch(error => alert(serverResponse.error));
 ```
 
 ### Headers
@@ -51,7 +52,8 @@ npm install loggerhead-module
   /* Let's use Loggerhead functions to send some log messages */
   Loggerhead.info('This is an info log message');
   Loggerhead.warning('This is an warning log message')
-      .then(confirm => alert(confirm));
+      .then(confirm => alert(confirm))
+      .catch(error => alert(error));
 
   /* Let's disable debug log level */
   Loggerhead.set({ levels: { debug : false }});
