@@ -70,7 +70,7 @@
 
       // additional action after Loggerhead function call
       function writeResponse (jsonText) {
-        document.getElementById('text-result').innerHTML = JSON.stringify(jsonText)
+        document.getElementById('text-result').innerHTML = JSON.stringify(JSON.parse(jsonText.data))
       }
 
       // call Loggerhead function here, based on the choosen log level
