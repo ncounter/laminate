@@ -80,7 +80,7 @@ This `module` can be used in a browser scenario, adding `listeners` for specific
     var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
     extra += !event.error ? '' : '\nerror: ' + event.error;
     const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
-    this.error(errorMessage);
+    Loggerhead.error(errorMessage);
   });
 ```
 

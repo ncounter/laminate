@@ -7,7 +7,6 @@ var Loggerhead = {};
     url: '',
     levels: {info: true, debug: true, warning: true, error: true},
     console: {info: true, debug: true, warning: true, error: true},
-    events: {load: true, unload: true, error: true},
   };
 
   _context.setHeaders = function(headers) {
@@ -109,31 +108,5 @@ var Loggerhead = {};
   // configuration parameters setter
   _context.set = function(configObject) {
     setMapFromObject(configObject, config);
-  }
-
-  // built-in event listeners
-  _context.loadEventListener = function(event) {
-    if (config.events.load) {
-      this.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
-    }
-  }
-  _context.unloadEventListener = function(event) {
-    if (config.events.unload) {
-      this.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
-    }
-  }
-  _context.errorEventListener = function(event) {
-    if (config.events.error) {
-      // Note that col & error are new to the HTML 5 and may not be supported in every browser.
-      var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
-      extra += !event.error ? '' : '\nerror: ' + event.error;
-      const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
-      this.error(errorMessage);
-    }
-  }
-  if (window != null) {
-    window.addEventListener('load', function(event) { _context.loadEventListener(event) });
-    window.addEventListener('unload', function(event) { _context.unloadEventListener(event) });
-    window.addEventListener('error', function(event) { _context.errorEventListener(event) });
   }
 })(Loggerhead);

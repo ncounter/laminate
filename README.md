@@ -24,22 +24,6 @@ Loggerhead.info('Send this info log message to the server')
     .catch(error => alert(serverResponse.error));
 ```
 
-### Events
-By default `Loggerhead.js` handles also some `window event` (the typical types a user wants to store a log for) by pre-configured `listener`s: they callback a dedicated built-in function per each type of `event`.
-
-Types of `events` it listens for are:
-* `load`: it sends an `info` log level message containing the `DateTime` and the current `URL` page the browser loads
-* `unload`: same behavior of the `load` listener, but for unloading pages
-* `error`: it sends an `error` log level message containing some details of the error event that just happened
-
-These built-in functions are named following the pattern `<eventName>EventListener` (e.g.: [`loadEventListener`, `unloadEventListener`, `errorEventListener`]), they receive the `event` object as a parameter, and they can be overridden like the following:
-
-```javascript
-Loggerhead.loadEventListener = (event) => console.log(event);
-Loggerhead.unloadEventListener = (event) => console.log(event);
-Loggerhead.errorEventListener = (event) => alert(event.message);
-```
-
 ### Headers
 `Loggerhead.js` provides also a way to customize `headers` values of the `POST` request: this can be used to add some **authentication** parameters, for instance. The default method behaves like a `proxy` receiving and returning the default `headers` map (*). In order to add more `headers` parameters this method can be overridden by a function that receives and returns the `headers` map as well, but it does something in the middle. See below an example:
 
@@ -80,6 +64,28 @@ Loggerhead.setHeaders = function(headers) {
 </script>
 ```
 
+## Use case
+This `plugin` can be used in a browser scenario, adding `listeners` for specific `events` and `callback` log functions in order to send and store log messages about the `event` that just triggered the `Loggerhead`.
+
+```javascript
+  // store a log message about the page has been loaded
+  window.addEventListener('load', function(event) {
+    Loggerhead.info('[' + new Date().toUTCString() + '] - Loading `' + window.location + '`');
+  });
+  // store a log message about a page has been left
+  window.addEventListener('unload', function(event) {
+    Loggerhead.info('[' + new Date().toUTCString() + '] - Leaving `' + window.location + '`');
+  });
+  // store a log message about the error that just happened
+  window.addEventListener('error', function(event) {
+    // Note that col & error are new to the HTML 5 and may not be supported in every browser.
+    var extra = !event.colno ? '' : '\ncolumn: ' + event.colno;
+    extra += !event.error ? '' : '\nerror: ' + event.error;
+    const errorMessage = event.message + '\nurl: ' + event.filename + '\nline: ' + event.lineno + extra;
+    Loggerhead.error(errorMessage);
+  });
+```
+
 ## Config parameters
 ```javascript
 // the server endpoint where to send logs
@@ -100,13 +106,6 @@ console: {
   warning: Boolean,
   error: Boolean,
 }
-
-// built-in event handlers, enabled by default
-events: {
-  load: Boolean,
-  unload: Boolean,
-  error: Boolean,
-}
 ```
 
 Parameters are configurable passing a *partial* or *complete* config object with desired values to the `set` method:
@@ -122,9 +121,6 @@ Loggerhead.set(
     console: {
       info: false,
       debug: false,
-    },
-    events: {
-      unload: false
     }
   }
 );
