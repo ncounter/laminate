@@ -96,12 +96,6 @@
       }
       document.getElementById('throw-error').addEventListener('click', newError);
 
-
-      // uncomment the following to override built-in event listeners
-      // Lh.loadEventListener = (event) => console.log(event);
-      // Lh.unloadEventListener = (event) => console.log(event);
-      // Lh.errorEventListener = (event) => alert(event.message);
-
       Loggerhead.setHeaders = function(headers) {
         headers.set('X-CSRF-Token', '<my-token-value>');
         return headers
