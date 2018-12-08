@@ -97,7 +97,7 @@
       document.getElementById('throw-error').addEventListener('click', newError);
 
       Loggerhead.setHeaders = function(headers) {
-        headers.set('X-CSRF-Token', '<my-token-value>');
+        headers['X-CSRF-Token'] = '<my-token-value>';
         return headers
       }
     </script>
